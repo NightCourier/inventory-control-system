@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <br>
+    <table id="inventory_table" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>Категория</th>
+            <th>Артикул</th>
+            <th>Товар</th>
+            <th>Штрих-код</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in product_list %}
+            <tr>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.vendor_code }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.bar_code }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
