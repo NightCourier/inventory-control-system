@@ -1,6 +1,6 @@
 from django.urls import path
-from ics.views import HomePageView
+from ics.views import ProductListView
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name="home"),
+    path('<slug:slug>', ProductListView.as_view(), name="home"),  # item_by_category
 ]
