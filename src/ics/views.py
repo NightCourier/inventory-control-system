@@ -1,15 +1,17 @@
+from django.db.models import Sum
 from django.views.generic import ListView
-from .models import Product, Storage
+from .models import Product, Storage, Category
 
 
 class ProductListView(ListView):
     template_name = "ics/table.html"
-    context_object_name = 'catproduct'
+    context_object_name = 'storproducts'
 
     def get_queryset(self):
         content = {
             'city': Storage.objects.filter(slug=self.kwargs['slug']).first().city,
-            'products': Product.objects.filter(storage__slug=self.kwargs['slug'])
+            'products': Product.objects.filter(storage__slug=self.kwargs['slug']),
+            'price': Category.objects.annotate(total_price=Sum('products__price'))
         }
         return content
 

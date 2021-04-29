@@ -34,7 +34,16 @@ class Product(models.Model):
     description = models.CharField(max_length=255, verbose_name="Описание")
     details = models.CharField(max_length=255, verbose_name="Характеристика товара")
     storage = models.ManyToManyField(Storage, verbose_name="Склад")
-    product_type = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
+    product_type = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        verbose_name="Категория",
+        related_name="products"
+    )
+
+    @property
+    def total_price(self):
+        return self.amount * self.price
 
     def __str__(self):
         return self.name
