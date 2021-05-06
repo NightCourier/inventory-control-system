@@ -1,6 +1,9 @@
 from django.db.models import Sum
 from django.views.generic import ListView
-from .models import Product, Storage, Category
+
+from models.category import Category
+from models.product import Product
+from models.storage import Storage
 
 
 class ProductListView(ListView):
