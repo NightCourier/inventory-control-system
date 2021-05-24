@@ -1,4 +1,8 @@
+from collections import defaultdict
+
 from django.views.generic import ListView
+
+import json
 from .models import Product, Storage, Category
 
 
@@ -7,14 +11,24 @@ class ProductListView(ListView):
     context_object_name = 'storproducts'
 
     def get_queryset(self):
+        category_total = defaultdict()
+        categories = Category.objects.all()
+
+        for category in categories:
+            category_total[category.name] = round(
+                sum([item.total for item in Product.objects.filter(product_type=category.id,
+                                                                   storage__slug=
+                                                                   self.kwargs['slug'])]), 2)
         content = {
             'products': Product.objects.filter(storage__slug=self.kwargs['slug']),
-            # 'storage_price': sum([item.total for item in Product.objects.filter(storage__slug=self.kwargs['slug'])])
+            'storage_price': category_total
         }
         return content
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['total'] = json.dumps(context['object_list']['storage_price'])
+        print(context['total'])
         context['storages'] = Storage.objects.all()
         context['city'] = Storage.objects.filter(slug=self.kwargs['slug']).first().city
         return context
