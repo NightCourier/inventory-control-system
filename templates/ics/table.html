@@ -17,11 +17,11 @@
         {% for item in storproducts.products %}
             <tr>
                 <td>{{ item.product_type }}</td>
-                <td style="text-align: center">{{ item.vendor_code }}</td>
-                <td>{{ item.name }}</td>
-                <td style="text-align: center">{{ item.bar_code }}</td>
-                <td style="text-align: center">{{ item.amount }}</td>
-                <td>{{ item.price }}</td>
+                <td>{{ item.vendor_code }}</td>
+                <td class="cntr">{{ item.name }}</td>
+                <td>{{ item.bar_code }}</td>
+                <td>{{ item.amount }}</td>
+                <td class="cntr">{{ item.price }}</td>
             </tr>
         {% endfor %}
         </tbody>
