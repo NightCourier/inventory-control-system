@@ -24,10 +24,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # def total_price(self):
-    #     a = sum([item.total for item in self.products.aggregate()])
-    #     return a
-
     class Meta:
         verbose_name = "Категория товара"
         verbose_name_plural = "Категории товара"
