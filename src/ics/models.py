@@ -6,6 +6,10 @@ class Storage(models.Model):
     group = models.CharField(max_length=255, verbose_name="Группа")
     slug = models.SlugField(verbose_name="Ссылка", unique=True)
 
+    @property
+    def total_price(self):
+        return sum([product.total for product in self.product_set.all()])
+
     def __str__(self):
         return self.city
 
