@@ -1,8 +1,8 @@
+import json
 from collections import defaultdict
 
 from django.views.generic import ListView
 
-import json
 from .models import Product, Storage, Category
 
 
@@ -28,7 +28,6 @@ class ProductListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['total'] = json.dumps(context['object_list']['storage_price'])
-        print(context['total'])
         context['storages'] = Storage.objects.all()
         context['city'] = Storage.objects.filter(slug=self.kwargs['slug']).first().city
         return context

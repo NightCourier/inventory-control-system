@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро пожаловать</title>
+</head>
+<style>
+    html {
+        background: url("back.png") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
+<body>
+<h2 id="welcome" style="text-align: center">
+</h2>
+</body>
+<script>
+	let today = new Date();
+	const dd = String(today.getDate()).padStart(2, '0');
+	const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	const yyyy = today.getFullYear();
+
+	today = dd + '/' + mm + '/' + yyyy;
+	setTimeout("location.href = 'http://127.0.0.1:8000/admin';", 2500);
+	document.getElementById('welcome').innerHTML = 'Добро пожаловать! Даня добавишь сюда имя пользователя\n<br>' + 'Хорошего дня\n<br>' +
+		'Сегодняшняя дата: ' + today;
+</script>
+</html>
