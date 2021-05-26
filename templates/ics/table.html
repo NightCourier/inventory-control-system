@@ -21,15 +21,15 @@
                 <td class="cntr">{{ item.name }}</td>
                 <td>{{ item.bar_code }}</td>
                 <td>{{ item.amount }}</td>
-                <td class="cntr">{{ item.price }}</td>
+                <td>{{ item.price }}<span>&#8372</span></td>
             </tr>
         {% endfor %}
         </tbody>
         <tfoot>
-            <tr>
-                <th colspan="4">Сумма</th>
-                <th colspan="2" style="text-align: right; font-size: large">{{ storage_price }} UAH</th>
-            </tr>
+        <tr>
+            <th colspan="4">Общая Сумма</th>
+            <th colspan="2" style="text-align: right; font-size: large">{{ storage_price }}&#8372</th>
+        </tr>
         </tfoot>
     </table>
 {% endblock %}
