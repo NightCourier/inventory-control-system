@@ -16,11 +16,11 @@ import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # __file__ - D:\PycharmProjects\django\inventory-control-system\src\config\settings.py
-BASE_DIR = environ.Path(__file__) - 2  # ..\PycharmProjects\inventory-control-system
+BASE_DIR = environ.Path(__file__) - 3  # ..\PycharmProjects\inventory-control-system
 
 # Read .env file
 env = environ.Env()
-environ.Env.read_env(env_file=os.path.join(BASE_DIR, "../.env"))
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, '../static')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 
 # for `python manage.py createsuperuser`

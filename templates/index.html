@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Название</a>
+        <a class="navbar-brand" href="#" style="margin-left: 50px">ICS</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03"
                 aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,18 +21,12 @@
 
         <div class="collapse navbar-collapse" id="navbarsExample03">
             <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                {##}
-                {#                <li class="nav-item">#}
-                {#                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
-                {#                </li>#}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
-                       aria-expanded="false">{{ city }}</a>
-
+                       aria-expanded="false">{{ storproducts.products.first.storage.first }}</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown03">
                         {% for storage in storages %}
-                            <li><a class="dropdown-item" href="{% url 'home' storage.slug %}">{{ storage.city }}</a>
-                            </li>
+                            <li><a class="dropdown-item" href="{% url 'home' storage.slug %}">{{ storage.city }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -60,19 +54,23 @@
 				var api = this.api();
 				var rows = api.rows({page: 'current'}).nodes();
 				var last = null;
+				var next = null;
 				api.column(0, {page: 'current'}).data().each(function (category, i) {
+				    console.log(0, last, category, i)
 					var q = JSON.parse("{{ total | escapejs }}");
 					if (last !== category) {
 						$(rows).eq(i).before(
-							'<tr class="bg-primary text-light" ><td colspan="6">' + category + '</td></tr>'
+							'<tr class="bg-secondary text-light" ><td colspan="6">' + category + '</td></tr>'
 						);
-						$(rows).eq(i).after(
-							' <tr>\n' +
-							'        <th colspan="4" class="text-right">Общая сумма</th>\n' +
+                        console.log(11, last, category, i)
+						$(rows).eq(i).before(
+							' <tr class="bg-info">\n' +
+							'        <th colspan="4" class="text-right">Общая сумма, UAH</th>\n' +
 							'        <th colspan="2">' + q[category] + ' </th>\n' +
 							'    </tr>'
 						)
 						last = category;
+                        console.log(22, last, category, i)
 					}
 				});
 			}
