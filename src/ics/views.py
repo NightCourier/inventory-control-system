@@ -1,8 +1,8 @@
+import json
 from collections import defaultdict
 
 from django.views.generic import ListView
 
-import json
 from .models import Product, Storage, Category
 
 
