@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventory</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
@@ -47,8 +47,8 @@
 <script type="text/javascript">
 	var data_table = '#inventory_table';
 	$(data_table).ready(function () {
-		$('.dataTables_filter input[type="search"]').css(
-			{'width': '270px', 'display': 'inline-block'}
+		$('.dataTables_filter input[type="search"]').attr('placeholder', 'Введите запрос для поиска...').css(
+			{'width': '300px', 'display': 'inline-block'}
 		);
 	});
 	$(data_table).DataTable({
@@ -58,9 +58,9 @@
 			language:
 				{
 					"processing": "Подождите...",
-					"search": "Поиск:",
-					"lengthMenu": "Показать _MENU_ записей",
-					"info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+					"search": "",
+					"lengthMenu": "Записей на страницу: _MENU_",
+					"info": "_START_-_END_ из _TOTAL_ записей",
 					"infoEmpty": "Записи с 0 до 0 из 0 записей",
 					"infoFiltered": "(отфильтровано из _MAX_ записей)",
 					"loadingRecords": "Загрузка записей...",
@@ -68,8 +68,8 @@
 					"emptyTable": "В таблице отсутствуют данные",
 					"paginate": {
 						"first": "Первая",
-						"previous": "Предыдущая",
-						"next": "Следующая",
+						"previous": "Пред.",
+						"next": "След.",
 						"last": "Последняя"
 					},
 					"aria": {
@@ -247,12 +247,12 @@
 							+ '<td class="bg-info" style="font-weight:bold">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
 						);
 
-						last = category;
-					}
-				});
-			}
-		}
-	);
+                        last = category;
+                    }
+                });
+            }
+        }
+    );
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
