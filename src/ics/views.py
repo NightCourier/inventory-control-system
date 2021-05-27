@@ -1,9 +1,8 @@
 import json
-from collections import defaultdict
 
 from django.views.generic import ListView
 
-from .models import Product, Storage, Category
+from .queries import *
 
 
 class ProductListView(ListView):
@@ -11,22 +10,34 @@ class ProductListView(ListView):
     context_object_name = 'storproducts'
 
     def get_queryset(self):
-        category_total = defaultdict()
-        categories = Category.objects.all()
+        if self.kwargs['name'] == 'all':
+            content = {
+                'products': get_products_by_slug(self.kwargs['slug']),
+                'total': get_total_by_slug(self.kwargs['slug']),
+                'city': get_city(self.kwargs['slug']),
+                'category_price': get_category_price(self.kwargs['slug']),
+                'slug': self.kwargs['slug'],
+                'category': get_first_category_name(),
+                'isAllStorage': True
+            }
+            return content
 
-        for category in categories:
-            category_total[category.name] = round(
-                sum([item.total for item in Product.objects.filter(
-                    product_type=category.id, storage__slug=self.kwargs['slug'])]), 2)
         content = {
-            'products': Product.objects.filter(storage__slug=self.kwargs['slug']),
-            'category_price': category_total
+            'products': get_products_by_category(self.kwargs['name'], self.kwargs['slug']),
+            'city': get_city(self.kwargs['slug']),
+            'category_price': get_total_by_category(self.kwargs['name'], self.kwargs['slug']),
+            'slug': self.kwargs['slug'],
+            'category': get_category_name(self.kwargs['name']),
+            'isAllStorage': False,
         }
+
         return content
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context['isAllStorage'] = json.dumps(context['object_list']['isAllStorage'])
         context['total'] = json.dumps(context['object_list']['category_price'])
+        context['categories'] = Category.objects.all()
         context['storages'] = Storage.objects.all()
         context['storage_price'] = round(Storage.objects.filter(slug=self.kwargs['slug']).first().total_price, 2)
         context['city'] = Storage.objects.filter(slug=self.kwargs['slug']).first().city

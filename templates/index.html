@@ -23,13 +23,33 @@
             <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
-                       aria-expanded="false">{{ storproducts.products.first.storage.first }}</a>
+                       aria-expanded="false">{{ storproducts.city }}</a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown03">
                         {% for storage in storages %}
-                            <li><a class="dropdown-item" href="{% url 'home' storage.slug %}">{{ storage.city }}</a>
+                            <li><a class="dropdown-item"
+                                   href="{% url 'home' storage.slug storproducts.category %}">{{ storage.city }}</a>
                             </li>
                         {% endfor %}
                     </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
+                       aria-expanded="false">{{ storproducts.category }}</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown03">
+                        {% for category in categories %}
+                            <li><a class="dropdown-item"
+                                   href="{% url 'home' storproducts.slug category.name %}">{{ category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item button">
+                    <a class="nav-link button" href="{% url 'home' storproducts.slug "all" %}"
+                       aria-expanded="false">Посмотреть все товары по складу</a>
+                </li>
+                <li class="nav-item button">
+                    <a class="nav-link button" href="#"
+                       aria-expanded="false">Сгенерировать отчёт</a>
                 </li>
             </ul>
         </div>
@@ -47,20 +67,22 @@
 <script type="text/javascript">
 	var data_table = '#inventory_table';
 	$(data_table).ready(function () {
-		$('.dataTables_filter input[type="search"]').attr('placeholder', 'Введите запрос для поиска...').css(
-			{'width': '300px', 'display': 'inline-block'}
+		$('.dataTables_filter input[type="search"]').css(
+			{'width': '270px', 'display': 'inline-block'}
 		);
 	});
 	$(data_table).DataTable({
 			columnDefs: [
-				{visible: false, targets: 0}
+				{visible: false, targets: 0},
+				{orderable: false, targets: 6},
+				{width: "15%", targets: 6}
 			],
 			language:
 				{
 					"processing": "Подождите...",
-					"search": "",
-					"lengthMenu": "Записей на страницу: _MENU_",
-					"info": "_START_-_END_ из _TOTAL_ записей",
+					"search": "Поиск:",
+					"lengthMenu": "Показать _MENU_ записей",
+					"info": "Записи с _START_ до _END_ из _TOTAL_ записей",
 					"infoEmpty": "Записи с 0 до 0 из 0 записей",
 					"infoFiltered": "(отфильтровано из _MAX_ записей)",
 					"loadingRecords": "Загрузка записей...",
@@ -68,8 +90,8 @@
 					"emptyTable": "В таблице отсутствуют данные",
 					"paginate": {
 						"first": "Первая",
-						"previous": "Пред.",
-						"next": "След.",
+						"previous": "Предыдущая",
+						"next": "Следующая",
 						"last": "Последняя"
 					},
 					"aria": {
@@ -239,20 +261,23 @@
 				var api = this.api();
 				var rows = api.rows({page: 'current'}).nodes();
 				var last = null;
-				api.column(0, {page: 'current'}).data().each(function (category, i) {
-					var total_by_category = JSON.parse("{{ total | escapejs }}");
-					if (last !== category) {
-						$(rows).eq(i).before(
-							'<td class="bg-info" colspan="4" style="font-weight:bold">' + category + '</td>'
-							+ '<td class="bg-info" style="font-weight:bold">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
-						);
-
-                        last = category;
-                    }
-                });
-            }
-        }
-    );
+				var isAllStorage = {{ isAllStorage }};
+				if (isAllStorage === true) {
+					api.column(0, {page: 'current'}).data().each(function (category, i) {
+						var total_by_category = JSON.parse("{{ total | escapejs }}");
+						if (last !== category) {
+							$(rows).eq(i).before(
+								'<td class="bg-info" colspan="4" style="font-weight:bold">' + category + '</td>'
+								+ '<td class="bg-info" style="font-weight:bold">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
+								+ '<td class="bg-info" colspan="4" style="font-weight:bold"></td>'
+							);
+							last = category;
+						}
+					});
+				}
+			}
+		}
+	);
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
