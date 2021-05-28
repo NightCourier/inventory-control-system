@@ -67,7 +67,7 @@
 <script type="text/javascript">
 	var data_table = '#inventory_table';
 	$(data_table).ready(function () {
-		$('.dataTables_filter input[type="search"]').css(
+		$('.dataTables_filter input[type="search"]').attr('placeholder', 'Введите запрос для поиска...').css(
 			{'width': '270px', 'display': 'inline-block'}
 		);
 	});
@@ -80,9 +80,9 @@
 			language:
 				{
 					"processing": "Подождите...",
-					"search": "Поиск:",
-					"lengthMenu": "Показать _MENU_ записей",
-					"info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+					"search": "",
+					"lengthMenu": "Записей на страницу: _MENU_",
+					"info": "_START_-_END_ из _TOTAL_ записей",
 					"infoEmpty": "Записи с 0 до 0 из 0 записей",
 					"infoFiltered": "(отфильтровано из _MAX_ записей)",
 					"loadingRecords": "Загрузка записей...",
@@ -90,8 +90,8 @@
 					"emptyTable": "В таблице отсутствуют данные",
 					"paginate": {
 						"first": "Первая",
-						"previous": "Предыдущая",
-						"next": "Следующая",
+						"previous": "Пред.",
+						"next": "След.",
 						"last": "Последняя"
 					},
 					"aria": {
