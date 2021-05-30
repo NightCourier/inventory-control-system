@@ -23,9 +23,7 @@
                 <td class="cntr">{{ item.name }}</td>
                 <td>{{ item.bar_code }}</td>
                 <td>{{ item.amount }}</td>
-{#                {% if perms.product.can_change_product %}#}
                 <td class="cntr">{{ item.price }}<span>&#8372</span></td>
-{#                {% endif %}#}
                 <td>
                     {% if perms.ics.change_product %}
                     <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"  class="btn btn-warning btn-sm"

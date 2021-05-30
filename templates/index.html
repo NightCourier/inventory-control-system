@@ -301,7 +301,7 @@
 						if (last !== category) {
 							$(rows).eq(i).before(
 								'<td class="bg-info" colspan="4" style="font-weight:bold">' + category + '</td>'
-								+ '<td class="bg-info" style="font-weight:bold">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
+								+ '<td class="bg-info" style="font-weight:bold; padding-right: 10px">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
 								+ '<td class="bg-info" colspan="4" style="font-weight:bold"></td>'
 							);
 							last = category;
