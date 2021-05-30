@@ -1,7 +1,9 @@
 import json
 
-from django.views.generic import ListView
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView, DeleteView
 
+from .form import ProductForm
 from .queries import *
 
 
@@ -42,3 +44,23 @@ class ProductListView(ListView):
         context['storage_price'] = round(Storage.objects.filter(slug=self.kwargs['slug']).first().total_price, 2)
         context['city'] = Storage.objects.filter(slug=self.kwargs['slug']).first().city
         return context
+
+
+def update_product(request, pk, product_type, slug):
+    item = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/products/{slug}/{product_type}')
+    else:
+        form = ProductForm(instance=item)
+
+        return render(request, 'ics/edit-delete/edit.html', {'form': form})
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+
+    def get_success_url(self):
+        return f'/products/{self.kwargs["slug"]}/{self.kwargs["product_type"]}'

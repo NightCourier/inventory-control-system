@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 
+{% include 'ics/edit-delete/message.html' %}
 {% block body %}
     <br>
     <table id="inventory_table" class="table table-striped" style="width:100%">
@@ -24,9 +25,11 @@
                 <td>{{ item.amount }}</td>
                 <td class="cntr">{{ item.price }}<span>&#8372</span></td>
                 <td>
-                    <a href="#" class="btn btn-warning btn-sm" role="button"
+                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"
+                       class="btn btn-warning btn-sm" role="button"
                        aria-pressed="true">Изменить</a>
-                    <a href="#" class="btn btn-danger btn-sm" role="button"
+                    <a href="{% url 'delete' storproducts.slug item.product_type item.pk %}"
+                       class="btn btn-danger btn-sm"
                        aria-pressed="true">Удалить</a>
                 </td>
             </tr>
@@ -36,7 +39,8 @@
         {% if storproducts.isAllStorage %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Общая Сумма По Складу</th>
-                <th colspan="3" style="text-align: right; font-size: large">{{ storage_price }} <span>&#8372 </span></th>
+                <th colspan="3" style="text-align: right; font-size: large">{{ storage_price }} <span>&#8372 </span>
+                </th>
             </tr>
         {% else %}
             <tr class="bg-info" style="font-weight:bold">
