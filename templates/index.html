@@ -45,7 +45,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdown03">
                         {% for storage in storages %}
                             <li>
-                                <a class="dropdown-item" href="{% url 'home' storage.slug storproducts.category %}">
+                                <a class="dropdown-item" href="{% url 'home' storage.slug 'all' %}">
                                     {{ storage.city }}
                                 </a>
                             </li>
