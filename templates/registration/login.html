@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Вход в учётную запись{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="login">
+<h1>Вход</h1>
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p class="submit">
+            <button class="btn btn-success" type="submit">Войти</button>
+        </p>
+    </form>
+</div>
+    </div>
+{% endblock %}

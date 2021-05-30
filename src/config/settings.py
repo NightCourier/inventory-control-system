@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 
     'ics',
 ]
@@ -144,3 +145,8 @@ STATICFILES_DIRS = [STATIC_DIR]
 ADMIN_USERNAME = env.str("ADMIN_USERNAME", default=None)
 ADMIN_EMAIL = env.str("ADMIN_EMAIL", default=None)
 ADMIN_PASSWORD = env.str("ADMIN_PASSWORD", default=None)
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_REDIRECT_URL = "welcome"
+LOGOUT_REDIRECT_URL = "login"

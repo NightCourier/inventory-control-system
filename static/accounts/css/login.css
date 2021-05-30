@@ -1,15 +1,11 @@
-html {
-    background: url("stock.jpg") no-repeat center center fixed;
+body {
+    background: url("/static/accounts/images/stock.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-body {
     font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
     color: #404040;
-    background: #0ca3d2;
 }
 
 .login {
@@ -24,7 +20,7 @@ body {
     box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.login:before {
+.container:before {
     content: '';
     position: absolute;
     top: -8px;
@@ -36,7 +32,7 @@ body {
     border-radius: 4px;
 }
 
-.login h1 {
+.container h1 {
     margin: -20px -20px 21px;
     line-height: 40px;
     font-size: 15px;
@@ -50,34 +46,34 @@ body {
     box-shadow: 0 1px whitesmoke;
 }
 
-.login p {
+.container p {
     margin: 20px 0 0;
 }
 
-.login p:first-child {
+.container p:first-child {
     margin-top: 0;
 }
 
-.login input[type=text], .login input[type=password] {
+.container input[type=text], .container input[type=password] {
     width: 378px;
 }
 
-.login p.submit {
+.container p.submit {
     text-align: right;
 }
 
-.login-help {
+.container-help {
     margin: 20px 0;
     font-size: 14px;
     color: #2a85a1;
     text-align: center;
 }
 
-.login-help a {
+.container-help a {
     color: #2a85a1;
 }
 
-.login-help a:hover {
+.container-help a:hover {
     text-decoration: underline;
 }
 
