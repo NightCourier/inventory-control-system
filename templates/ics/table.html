@@ -23,14 +23,18 @@
                 <td class="cntr">{{ item.name }}</td>
                 <td>{{ item.bar_code }}</td>
                 <td>{{ item.amount }}</td>
+{#                {% if perms.product.can_change_product %}#}
                 <td class="cntr">{{ item.price }}<span>&#8372</span></td>
+{#                {% endif %}#}
                 <td>
-                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"
-                       class="btn btn-warning btn-sm" role="button"
-                       aria-pressed="true">Изменить</a>
-                    <a href="{% url 'delete' storproducts.slug item.product_type item.pk %}"
-                       class="btn btn-danger btn-sm"
-                       aria-pressed="true">Удалить</a>
+                    {% if perms.ics.change_product %}
+                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"  class="btn btn-warning btn-sm"
+                       role="button" aria-pressed="true">Изменить</a>
+                    {% endif %}
+                    {% if perms.ics.delete_product %}
+                        <a href="{% url 'delete' storproducts.slug item.product_type item.pk %}"
+                           class="btn btn-danger btn-sm" aria-pressed="true">Удалить</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -39,13 +43,13 @@
         {% if storproducts.isAllStorage %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Общая Сумма По Складу</th>
-                <th colspan="3" style="text-align: right; font-size: large">{{ storage_price }} <span>&#8372 </span>
+                <th colspan="3" style="text-align: right; font-size: large; padding-right: 35px">{{ storage_price }} <span>&#8372 </span>
                 </th>
             </tr>
         {% else %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Сумма</th>
-                <th colspan="3" style="text-align: right; font-size: large">{{ total }} <span>&#8372 </span></th>
+                <th colspan="3" style="text-align: right; font-size: large; padding-right: 20px">{{ total }} <span>&#8372 </span></th>
             </tr>
         {% endif %}
         </tfoot>

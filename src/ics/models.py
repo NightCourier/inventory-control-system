@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Storage(models.Model):
@@ -51,6 +52,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('home', args=[str(self.storage.first().slug), str(self.product_type)])
 
     class Meta:
         verbose_name = "Продукт"

@@ -1,0 +1,12 @@
+{% extends 'edit_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container col-md-10 edit_box">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Изменить</button>
+        </form>
+    </div>
+{% endblock %}

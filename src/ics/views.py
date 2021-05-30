@@ -1,13 +1,12 @@
 import json
+from django.views.generic import ListView, DeleteView, UpdateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView, DeleteView
-
-from .form import ProductForm
 from .queries import *
 
 
-class ProductListView(ListView):
+class ProductListView(PermissionRequiredMixin, ListView):
+    permission_required = 'ics.view_product'
     template_name = "ics/table.html"
     context_object_name = 'storproducts'
 
@@ -46,20 +45,19 @@ class ProductListView(ListView):
         return context
 
 
-def update_product(request, pk, product_type, slug):
-    item = get_object_or_404(Product, pk=pk)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect(f'/products/{slug}/{product_type}')
-    else:
-        form = ProductForm(instance=item)
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
+    raise_exception = True
+    permission_required = 'ics.change_product'
 
-        return render(request, 'ics/edit-delete/edit.html', {'form': form})
+    model = Product
+    fields = ['vendor_code', 'name', 'bar_code', 'amount', 'price']
+    template_name_suffix = '_update_form'
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, DeleteView):
+    raise_exception = True
+    permission_required = 'ics.delete_product'
+
     model = Product
 
     def get_success_url(self):
