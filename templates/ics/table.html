@@ -10,7 +10,8 @@
             <th>Артикул</th>
             <th>Товар</th>
             <th>Штрих-код</th>
-            <th>Количество</th>
+            <th>Доступно(ед.)</th>
+            <th>Забронировано(ед.)</th>
             <th>Цена</th>
             <th></th>
         </tr>
@@ -22,11 +23,16 @@
                 <td>{{ item.vendor_code }}</td>
                 <td class="cntr">{{ item.name }}</td>
                 <td>{{ item.bar_code }}</td>
-                <td>{{ item.amount }}</td>
+                <td>{{ item.amount_available }} </td>
+                <td>{% if item.amount_booked %}<b>{{ item.amount_booked }}</b>{% else %} Нет {% endif %}</td>
                 <td class="cntr">{{ item.price }}<span>&#8372</span></td>
                 <td>
+                    {% if not perms.ics.change_product %}
+                    <a href="{% url 'book' storproducts.slug item.product_type item.pk %}"  class="btn btn-primary btn-sm"
+                       role="button" aria-pressed="true">Забронировать!</a>
+                    {% endif %}
                     {% if perms.ics.change_product %}
-                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"  class="btn btn-warning btn-sm"
+                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}" class="btn btn-warning btn-sm"
                        role="button" aria-pressed="true">Изменить</a>
                     {% endif %}
                     {% if perms.ics.delete_product %}
@@ -41,13 +47,13 @@
         {% if storproducts.isAllStorage %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Общая Сумма По Складу</th>
-                <th colspan="3" style="text-align: right; font-size: large; padding-right: 35px">{{ storage_price }} <span>&#8372 </span>
+                <th colspan="4" style="text-align: right; font-size: large; padding-right: 35px">{{ storage_price }} <span>&#8372 </span>
                 </th>
             </tr>
         {% else %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Сумма</th>
-                <th colspan="3" style="text-align: right; font-size: large; padding-right: 20px">{{ total }} <span>&#8372 </span></th>
+                <th colspan="4" style="text-align: right; font-size: large; padding-right: 20px">{{ total }} <span>&#8372 </span></th>
             </tr>
         {% endif %}
         </tfoot>

@@ -84,7 +84,11 @@
                    aria-expanded="false">Привет, {{ user.first_name }} {{ user.last_name }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown03">
+                    {% if perms.ics.change_product  %}
                     <li><a class="dropdown-item">Вы вошли под учтеной записью <b>менеджера</b></a></li>
+                    {% else %}
+                    <li><a class="dropdown-item">Вы вошли под учтеной записью <b>клиента</b></a></li>
+                    {% endif %}
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти из учетной записи</a></li>
                 </ul>
             </li>
@@ -304,9 +308,9 @@
 						var total_by_category = JSON.parse("{{ total | escapejs }}");
 						if (last !== category) {
 							$(rows).eq(i).before(
-								'<td class="bg-info" colspan="4" style="font-weight:bold">' + category + '</td>'
-								+ '<td class="bg-info" style="font-weight:bold; padding-right: 10px">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
-								+ '<td class="bg-info" colspan="4" style="font-weight:bold"></td>'
+								'<td class="bg-info" colspan="5" style="font-weight:bold">' + category + '</td>'
+								+ '<td class="cntr bg-info" style="font-weight:bold ">' + total_by_category[category] + '<span>&#8372 </span>' + '</td>'
+                                + '<td class="bg-info" colspan="4" style="font-weight:bold"></td>'
 							);
 							last = category;
 						}

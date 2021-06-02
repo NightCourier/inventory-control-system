@@ -34,7 +34,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Наименование")
     bar_code = models.BigIntegerField(verbose_name="Штрих-код")
     vendor_code = models.CharField(max_length=255, verbose_name="Артикул")
-    amount = models.IntegerField(verbose_name="Количество")
+    amount_available = models.IntegerField(verbose_name="Количество доступных")
+    amount_booked = models.IntegerField(verbose_name="Количество забронированных", default=0)
     price = models.FloatField(verbose_name="Цена")
     description = models.CharField(max_length=255, verbose_name="Описание")
     details = models.CharField(max_length=255, verbose_name="Характеристика товара")
@@ -48,7 +49,7 @@ class Product(models.Model):
 
     @property
     def total(self):
-        return self.amount * self.price
+        return self.amount_available * self.price
 
     def __str__(self):
         return self.name

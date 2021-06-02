@@ -50,7 +50,7 @@ class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = 'ics.change_product'
 
     model = Product
-    fields = ['vendor_code', 'name', 'bar_code', 'amount', 'price']
+    fields = ['vendor_code', 'name', 'bar_code', 'amount_available', 'price']
     template_name_suffix = '_update_form'
 
 
@@ -62,3 +62,18 @@ class ProductDeleteView(PermissionRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return f'/products/{self.kwargs["slug"]}/{self.kwargs["product_type"]}'
+
+
+class ProductBookView(UpdateView):
+    raise_exception = True
+    permission_required = 'ics.view_product'
+
+    model = Product
+    fields = ["amount_booked"]
+    template_name_suffix = '_book'
+
+    def post(self, request, *args, **kwargs):
+        product = Product.objects.get(id=self.kwargs["pk"])
+        product.amount_available -= int(request.POST["amount_booked"]) if product.amount_booked != int(request.POST["amount_booked"]) else 0
+        product.save()
+        return super().post(request, **kwargs)
