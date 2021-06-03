@@ -3,20 +3,31 @@
 
 {% block body %}
     <div class="container col-md-10 edit_box">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <p style="text-align: center">Забронировать <b>"{{ object }}"</b>?</p>
-            <p style="text-align: center">Количество доступных товаров: <b>"{{ object.amount_available }}"</b></p>
-            <button type="submit" class="btn btn-info" style="text-align: center">Забронировать</button>
-            <a style=" color: white; float: right; padding: 15px 20px; display: block ;border: none; border-radius: 4em; background-color: #0ca3d2;" href="{{ view.get_success_url }}" class="btn btn-warning">Отменить</a>
-        </form>
+        {% if object.amount_available > 0 %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <p style="text-align: center">Забронировать <b>"{{ object }}"</b>?</p>
+                <p style="text-align: center">Количество доступных товаров: <b>"{{ object.amount_available }}"</b></p>
+                <button type="submit" class="btn btn-info" style="text-align: center">Забронировать</button>
+                <a style=" color: white; float: right; padding: 15px 20px; display: block ;border: none; border-radius: 4em; background-color: #0ca3d2;"
+                   href="{{ view.get_success_url }}" class="btn btn-warning">Отменить</a>
+            </form>
+        {% else %}
+            <form method="POST">
+                {% csrf_token %}
+                <p style="text-align: center">К сожалению данный товар <b>"{{ object }}"</b> отсутствует </p>
+                <a style=" color: white; float: right; padding: 8px 20px; display: block ;border: none; border-radius: 8em; background-color: #0ca3d2;"
+                   href="{{ view.get_success_url }}" class="btn btn-warning">Вернуться</a>
+            </form>
+        {% endif %}
     </div>
 
     <style>
         body {
             background: url("/static/ics/images/imgonline-com-ua-Blur-jLrAHKFLtuz.jpg") no-repeat center center fixed;
         }
+
         /* Style the submit button with a specific background color etc */
         button[type=submit] {
             background-color: #0ca3d2;

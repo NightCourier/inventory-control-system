@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+
+User = get_user_model()
 
 
 class Storage(models.Model):
@@ -60,3 +63,20 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+
+
+class Order(models.Model):
+    user = models.IntegerField()
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Продукт"
+    )
+
+    amount = models.IntegerField()
+    order_time = models.DateTimeField()
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"

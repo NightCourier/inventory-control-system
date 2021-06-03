@@ -28,12 +28,14 @@
                 <td class="cntr">{{ item.price }}<span>&#8372</span></td>
                 <td>
                     {% if not perms.ics.change_product %}
-                    <a href="{% url 'book' storproducts.slug item.product_type item.pk %}"  class="btn btn-primary btn-sm"
-                       role="button" aria-pressed="true">Забронировать!</a>
+                        <a href="{% url 'book' storproducts.slug item.product_type item.pk %}"
+                           class="btn btn-primary btn-sm"
+                           role="button" aria-pressed="true">Забронировать!</a>
                     {% endif %}
                     {% if perms.ics.change_product %}
-                    <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}" class="btn btn-warning btn-sm"
-                       role="button" aria-pressed="true">Изменить</a>
+                        <a href="{% url 'edit' item.pk item.product_type storproducts.slug %}"
+                           class="btn btn-warning btn-sm"
+                           role="button" aria-pressed="true">Изменить</a>
                     {% endif %}
                     {% if perms.ics.delete_product %}
                         <a href="{% url 'delete' storproducts.slug item.product_type item.pk %}"
@@ -47,15 +49,23 @@
         {% if storproducts.isAllStorage %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Общая Сумма По Складу</th>
-                <th colspan="4" style="text-align: right; font-size: large; padding-right: 35px">{{ storage_price }} <span>&#8372 </span>
+                <th colspan="4" style="text-align: right; font-size: large; padding-right: 35px">{{ storage_price }}
+                    <span>&#8372 </span>
                 </th>
             </tr>
         {% else %}
             <tr class="bg-info" style="font-weight:bold">
                 <th colspan="4">Сумма</th>
-                <th colspan="4" style="text-align: right; font-size: large; padding-right: 20px">{{ total }} <span>&#8372 </span></th>
+                <th colspan="4" style="text-align: right; font-size: large; padding-right: 20px">{{ total }} <span>&#8372 </span>
+                </th>
             </tr>
         {% endif %}
         </tfoot>
     </table>
+    {% if not perms.ics.change_product %}
+        <a href="{% url 'report'%}">
+            <i class="fa fa-file-excel-o"
+               style="position: absolute; bottom: 20px; right: 50px; font-size:48px; color: #1e7e34"></i>
+        </a>
+    {% endif %}
 {% endblock %}
